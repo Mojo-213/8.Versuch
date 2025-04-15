@@ -83,6 +83,7 @@ export default function App() {
             {player.races > 0 ? Math.round(calculateScore(player)) : '–'} 
             <select
               style={{ fontSize: "0.75rem", marginLeft: "8px" }}
+              value=""
               onChange={(e) => {
                 const change = parseInt(e.target.value);
                 if (!isNaN(change)) {
@@ -93,12 +94,11 @@ export default function App() {
                   ));
                 }
               }}
-              defaultValue=""
             >
               <option value="" disabled>
                 Elo ändern...
               </option>
-              {[-10, -5, -1, 1, 5, 10].map((change) => (
+              {[-10, -3, -1, 1, 3, 10].map((change) => (
                 <option key={change} value={change}>
                   {change > 0 ? `+${change}` : change}
                 </option>
