@@ -56,7 +56,7 @@ export default function App() {
         flexDirection: 'column',
         height: '100vh',
         textAlign: 'center',
-        backgroundColor: "#e60012", // Mario-Rot
+        backgroundColor: "#b8000f", // Mario-Rot
         color: "white", // Text gut lesbar
       }}
     >
