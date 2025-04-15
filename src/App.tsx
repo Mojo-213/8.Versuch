@@ -17,7 +17,7 @@ export default function App() {
 
   const calculateScore = (player: Player): number => {
     if (player.races === 0) return -Infinity;
-    return (player.elo - 1000) / Math.sqrt(player.races);
+    return (player.elo - 1000) / player.races;
   };
 
   const addPlayer = () => {
