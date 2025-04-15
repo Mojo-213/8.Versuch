@@ -82,7 +82,13 @@ export default function App() {
           <li key={index}>
             {player.name} - Elo: {player.elo} - Rennen: {player.races} – Score:{' '}
             {player.races > 0 ? Math.round(calculateScore(player)) : '–'} 
-            <button onClick={() => setEditEloPlayer(player.name)}>
+            <button onClick={() => setEditEloPlayer(player.name)}
+              style={{
+              fontSize: "0.75rem",
+              padding: "2px 6px",
+              marginLeft: "8px",
+            }}
+              >
               Elo anpassen
             </button>
             
