@@ -14,7 +14,7 @@ export default function App() {
   const [showRaces, setShowRaces] = useState<boolean>(false);
   const [sortBy, setSortBy] = useState<'elo' | 'score'>('elo');
   const [showFullList, setShowFullList] = useState<boolean>(false);
-
+  const [editEloPlayer, setEditEloPlayer] = useState<string | null>(null);
   const calculateScore = (player: Player): number => {
     if (player.races === 0) return -Infinity;
     return (player.elo - 1000) / player.races;
@@ -81,7 +81,32 @@ export default function App() {
         {visiblePlayers.map((player, index) => (
           <li key={index}>
             {player.name} - Elo: {player.elo} - Rennen: {player.races} – Score:{' '}
-            {player.races > 0 ? Math.round(calculateScore(player)) : '–'}
+            {player.races > 0 ? Math.round(calculateScore(player)) : '–'} 
+            <button onClick={() => setEditEloPlayer(player.name)}>
+              Elo anpassen
+            </button>
+            
+            {editEloPlayer === player.name && (
+              <div style={{ marginTop: "4px" }}>
+                {[-10, -5, -1, 1, 5, 10].map((change) => (
+                  <button
+                    key={change}
+                    style={{ margin: "2px" }}
+                    onClick={() => {
+                      setPlayers(players.map(p =>
+                        p.name === player.name
+                          ? { ...p, elo: p.elo + change }
+                          : p
+                      ));
+                      setEditEloPlayer(null);
+                    }}
+                  >
+                    {change > 0 ? `+${change}` : change}
+                  </button>
+                ))}
+              </div>
+            )}
+
           </li>
         ))}
       </ul>
