@@ -52,6 +52,8 @@ export default function App() {
         flexDirection: 'column',
         minHeight: '100vh',
         textAlign: 'center',
+        backgroundColor: "#e60012", // Mario-Rot
+        color: "white", // Text gut lesbar
       }}
     >
       <h1>Mario Kart Turnier</h1>
