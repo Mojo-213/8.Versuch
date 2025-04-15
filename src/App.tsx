@@ -14,7 +14,6 @@ export default function App() {
   const [showRaces, setShowRaces] = useState<boolean>(false);
   const [sortBy, setSortBy] = useState<'elo' | 'score'>('elo');
   const [showFullList, setShowFullList] = useState<boolean>(false);
-  const [editEloPlayer, setEditEloPlayer] = useState<string | null>(null);
   const calculateScore = (player: Player): number => {
     if (player.races === 0) return -Infinity;
     return (player.elo - 1000) / player.races;
