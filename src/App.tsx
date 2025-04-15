@@ -93,26 +93,31 @@ export default function App() {
             </button>
             
             {editEloPlayer === player.name && (
-              <div style={{ marginTop: "4px" }}>
+              <select
+                style={{ marginTop: "4px" }}
+                onChange={(e) => {
+                  const change = parseInt(e.target.value);
+                  if (!isNaN(change)) {
+                    setPlayers(players.map(p =>
+                      p.name === player.name
+                        ? { ...p, elo: p.elo + change }
+                        : p
+                    ));
+                  }
+                  setEditEloPlayer(null);
+                }}
+                defaultValue=""
+              >
+                <option value="" disabled>
+                  Elo ändern...
+                </option>
                 {[-10, -5, -1, 1, 5, 10].map((change) => (
-                  <button
-                    key={change}
-                    style={{ margin: "2px" }}
-                    onClick={() => {
-                      setPlayers(players.map(p =>
-                        p.name === player.name
-                          ? { ...p, elo: p.elo + change }
-                          : p
-                      ));
-                      setEditEloPlayer(null);
-                    }}
-                  >
+                  <option key={change} value={change}>
                     {change > 0 ? `+${change}` : change}
-                  </button>
+                  </option>
                 ))}
-              </div>
+              </select>
             )}
-
           </li>
         ))}
       </ul>
