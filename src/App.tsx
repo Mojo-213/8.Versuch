@@ -50,7 +50,7 @@ export default function App() {
         justifyContent: 'top',
         alignItems: 'center',
         flexDirection: 'column',
-        minHeight: '100vh',
+        height: '100vh',
         textAlign: 'center',
         backgroundColor: "#e60012", // Mario-Rot
         color: "white", // Text gut lesbar
