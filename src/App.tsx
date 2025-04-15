@@ -80,44 +80,32 @@ export default function App() {
       <ul style={{ textAlign: 'left' }}>
         {visiblePlayers.map((player, index) => (
           <li key={index}>
-            {player.name} - Elo: {player.elo} - Rennen: {player.races} – Score:{' '}
+            {player.name} - Elo: {player.elo} - {player.races} – Score:{' '}
             {player.races > 0 ? Math.round(calculateScore(player)) : '–'} 
-            <button onClick={() => setEditEloPlayer(player.name)}
-              style={{
-              fontSize: "0.75rem",
-              padding: "2px 6px",
-              marginLeft: "8px",
-            }}
-              >
-              Elo anpassen
-            </button>
-            
-            {editEloPlayer === player.name && (
-              <select
-                style={{ marginTop: "4px" }}
-                onChange={(e) => {
-                  const change = parseInt(e.target.value);
-                  if (!isNaN(change)) {
-                    setPlayers(players.map(p =>
-                      p.name === player.name
-                        ? { ...p, elo: p.elo + change }
-                        : p
-                    ));
-                  }
-                  setEditEloPlayer(null);
-                }}
-                defaultValue=""
-              >
-                <option value="" disabled>
-                  Elo ändern...
+            <select
+              style={{ fontSize: "0.75rem", marginLeft: "8px" }}
+              onChange={(e) => {
+                const change = parseInt(e.target.value);
+                if (!isNaN(change)) {
+                  setPlayers(players.map(p =>
+                    p.name === player.name
+                      ? { ...p, elo: p.elo + change }
+                      : p
+                  ));
+                }
+              }}
+              defaultValue=""
+            >
+              <option value="" disabled>
+                Elo ändern...
+              </option>
+              {[-10, -5, -1, 1, 5, 10].map((change) => (
+                <option key={change} value={change}>
+                  {change > 0 ? `+${change}` : change}
                 </option>
-                {[-10, -5, -1, 1, 5, 10].map((change) => (
-                  <option key={change} value={change}>
-                    {change > 0 ? `+${change}` : change}
-                  </option>
-                ))}
-              </select>
-            )}
+              ))}
+            </select>
+
           </li>
         ))}
       </ul>
