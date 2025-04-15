@@ -172,6 +172,53 @@ export default function App() {
           </ol>
         </>
       )}
+      {races.length > 0 && (
+        <button
+          onClick={() => {
+            const lastRace = races[races.length - 1];
+            const placementPoints = [60, 40, 10, -20];
+      
+            // Spieler wieder "zurückrechnen"
+            const updatedPlayers = [...players].map((player:Player) => {
+              const placeIndex = lastRace.indexOf(player.name);
+              if (placeIndex === -1) return player;
+      
+              const rawPoints = placementPoints[placeIndex];
+              const raceWithObjects = lastRace
+                .map((name:string) => players.find((p:Player) => p.name === name))
+                .filter((p): p is Player => p !== undefined);
+      
+              const averageOpponentElo =
+                raceWithObjects.reduce((sum:number, p:Player) => sum + p.elo, 0) /
+                raceWithObjects.length;
+      
+              let adjustedPoints = 0;
+      
+              if (rawPoints >= 0) {
+                adjustedPoints =
+                  rawPoints * (averageOpponentElo / player.elo) ** 2;
+              } else {
+                adjustedPoints =
+                  rawPoints * (player.elo / averageOpponentElo) ** 2;
+              }
+      
+              const finalPoints = Math.round(adjustedPoints);
+      
+              return {
+                ...player,
+                elo: player.elo - finalPoints,
+                races: player.races - 1,
+              };
+            });
+      
+            setPlayers(updatedPlayers);
+            setRaces(races.slice(0, -1));
+          }}
+        >
+          Letztes Rennen löschen
+        </button>
+      )}
+
     </div>
   );
 }
