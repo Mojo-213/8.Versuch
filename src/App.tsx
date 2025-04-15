@@ -59,7 +59,7 @@ export default function App() {
         color: "white", // Text gut lesbar
       }}
     >
-      <h1>Mario Kart Turnier</h1>
+      <h1>Yokaiwai-Con Turnier</h1>
 
       <input
         type="text"
