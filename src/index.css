@@ -24,15 +24,49 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
   min-height: 100vh;
+}
+
+.background {
+  position: fixed;
+  inset: 0;
+  overflow: visible;
+  z-index: 0;
+}
+
+.blob {
+  position: absolute;
+  width: 1200px;
+  height: 1200px;
+  border-radius: 50%;
+  filter: blur(80px);
+
+  background: radial-gradient(circle, #a8edea, transparent);
+
+  transition: transform 8s ease-in-out;
+}
+
+.blob:nth-child(2) {
+  background: radial-gradient(circle, #fbb9ce, transparent);
+}
+
+.blob:nth-child(3) {
+  background: radial-gradient(circle, #d4f9e2, transparent);
+}
+
+@keyframes moveBlob {
+  from { transform: translate(0, 0); }
+  to { transform: translate(200px, 150px); }
 }
 
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+}
+
+.inhalt{
+  position: relative;
+  z-index: 200;
 }
 
 button {

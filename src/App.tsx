@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
+
 
 export default function App() {
   type Player = {
@@ -7,6 +9,7 @@ export default function App() {
     races: number;
   };
 
+  const BLOB_SIZE = 1200;
   const [players, setPlayers] = useState<Player[]>([]);
   const [newPlayer, setNewPlayer] = useState<string>('');
   const [races, setRaces] = useState<string[][]>([]);
@@ -14,10 +17,31 @@ export default function App() {
   const [showRaces, setShowRaces] = useState<boolean>(false);
   const [sortBy, setSortBy] = useState<'elo' | 'score'>('elo');
   const [showFullList, setShowFullList] = useState<boolean>(false);
+  const [blobPositions, setBlobPositions] = useState(
+  Array(3).fill(0).map(() => ({
+    x: Math.random() * window.innerWidth,
+    y: Math.random() * window.innerHeight,
+  }))
+);
   const calculateScore = (player: Player): number => {
     if (player.races === 0) return -Infinity;
     return (player.elo - 1000) / player.races;
   };
+
+  useEffect(() => {
+  const interval = setInterval(() => {
+    setBlobPositions(
+      blobPositions.map(() => ({
+        x: (Math.random() - 0.5) * (window.innerWidth + BLOB_SIZE),
+        y: (Math.random() - 0.5) * (window.innerHeight + BLOB_SIZE),
+      }))
+    );
+    console.log(blobPositions);
+  }, 4000);
+
+  return () => clearInterval(interval);
+}, [blobPositions]);
+  
 
   const addPlayer = () => {
     if (newPlayer.trim() === '') return;
@@ -45,7 +69,7 @@ export default function App() {
   return (
     <div
       style={{
-        position: "absolute",
+        position: "relative",
         top: 0,
         left: 0,
         width: "100%",
@@ -55,11 +79,24 @@ export default function App() {
         flexDirection: 'column',
         height: '100vh',
         textAlign: 'center',
-        backgroundColor: "#b8000f", // Mario-Rot
+        backgroundColor: "#ffffff", // Mario-Rot
         color: "white", // Text gut lesbar
       }}
     >
-      <h1>Yokaiwai-Con Turnier</h1>
+      <div className="background">
+        {blobPositions.map((pos, i) => (
+    <div
+      key={i}
+      className="blob"
+      style={{
+        transform: `translate(${pos.x}px, ${pos.y}px)`
+      }}
+    />
+  ))}
+  <div className="inhalt">
+    <div>
+      <img src="./public/title2.gif"/>
+    </div>
 
       <input
         type="text"
@@ -242,6 +279,11 @@ export default function App() {
         </button>
       )}
 
+  </div>
+  
+      
+      </div>
+      
     </div>
   );
 }
