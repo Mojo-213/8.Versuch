@@ -4,7 +4,7 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
+  color: rgba(227, 15, 15, 0.87);
   background-color: #242424;
 
   font-synthesis: none;
@@ -32,22 +32,56 @@ body {
 .outer{
   display: flex;
   justify-content: center;
+  padding-bottom: 2%;
+  /* width: 2000px */
 }
 .firstLayer{
-  width: 17%;
+  width: 30%;
   padding-top: 2%;
-  padding-bottom: 5%;
+  padding-bottom: 3%;
+  display: flex;
+  justify-content: space-around;
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 15px;
+  border-radius: 15px;
+  box-shadow: 2px 2px 2px rgb(170, 170, 170);
+}
+.playerOverview{
+  display: flex;
+  justify-content: space-around;
+  width: 30%;
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 15px;
+  box-shadow: 2px 2px 2px rgb(170, 170, 170);
+}
+.secondLayer{
+  width: 100%;
   display: flex;
   justify-content: space-between;
+  padding-top: 1%;
+  padding-bottom: 3%;
+  padding-top: 10%;
+  margin-bottom: 7%;
 }
-.inputPlayer{
+.listPlayer{
+  padding-bottom: 2%;
 }
-
+.lastLayer{
+  display: flex;
+  justify-content: space-around;
+  width: 30%;
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 15px;
+  box-shadow: 2px 2px 2px rgb(170, 170, 170);
+}
 .background {
   position: fixed;
   inset: 0;
   overflow: visible;
   z-index: 0;
+}
+.fourthLayer{
+  padding-bottom: 10%;
 }
 
 .blob {
@@ -80,6 +114,10 @@ h1 {
   line-height: 1.1;
 }
 
+h2, li, ul, label, option, value, button, input {
+  color: rgb(121, 121, 170);
+}
+
 .inhalt{
   position: relative;
   z-index: 200;
@@ -94,6 +132,7 @@ button {
   font-family: inherit;
   background-color: #1a1a1a;
   cursor: pointer;
+  box-shadow: 2px 2px 2px rgb(170, 170, 170);
   transition: border-color 0.25s;
 }
 button:focus,
@@ -103,7 +142,7 @@ button:focus-visible {
 
 @media (prefers-color-scheme: light) {
   :root {
-    color: #213547;
+    color: #06121c;
     background-color: #ffffff;
   }
   a:hover {
@@ -115,7 +154,7 @@ button:focus-visible {
   }
   button:hover{
     background-color: white;
-    border: 2px black;
+    border: 2px rgb(255, 255, 255);
   }
   input {
   padding: 10px 14px;
@@ -125,6 +164,7 @@ button:focus-visible {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
+  box-shadow: inset 2px 2px 2px rgb(170, 170, 170);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 

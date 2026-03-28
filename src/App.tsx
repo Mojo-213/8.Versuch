@@ -110,48 +110,10 @@ export default function App() {
       <button className="buttonAdd" onClick={addPlayer}>Hinzufügen</button>
     </div>
     </div>
-      
-      <button onClick={() => setSortBy(sortBy === 'elo' ? 'score' : 'elo')}>
-        Nach {sortBy === 'elo' ? 'Score' : 'Elo'} sortieren
-      </button>
-      <button onClick={() => setShowFullList(!showFullList)}>
-        {showFullList ? 'Nur Top 8 anzeigen' : 'Alle Spieler anzeigen'}
-      </button>
 
-      <h2>Spielerliste</h2>
-      <ul style={{ textAlign: 'left' }}>
-        {visiblePlayers.map((player, index) => (
-          <li key={index}>
-            {player.name} - Elo: {player.elo} - {player.races} – Score:{' '}
-            {player.races > 0 ? Math.round(calculateScore(player)) : '–'} 
-            <select
-              style={{ fontSize: "0.75rem", marginLeft: "8px" }}
-              value=""
-              onChange={(e) => {
-                const change = parseInt(e.target.value);
-                if (!isNaN(change)) {
-                  setPlayers(players.map(p =>
-                    p.name === player.name
-                      ? { ...p, elo: p.elo + change }
-                      : p
-                  ));
-                }
-              }}
-            >
-              <option value="" disabled>
-                Elo ändern...
-              </option>
-              {[-10, -3, -1, 1, 3, 10].map((change) => (
-                <option key={change} value={change}>
-                  {change > 0 ? `+${change}` : change}
-                </option>
-              ))}
-            </select>
-
-          </li>
-        ))}
-      </ul>
-
+<div className="outer">
+    <div className="playerOverview">
+      <div>
       <h2>Neues Rennen</h2>
       {currentRace.map((name: string, index: number) => (
         <div key={index}>
@@ -175,6 +137,8 @@ export default function App() {
           </select>
         </div>
       ))}
+      
+      <div className="secondLayer">
       <button
         onClick={() => {
           if (currentRace.some((name: string) => name.trim() === '')) return;
@@ -284,7 +248,60 @@ export default function App() {
           Letztes Rennen löschen
         </button>
       )}
+      </div>
 
+</div>
+      </div>
+      </div>
+<div className="outer">
+<div className="lastLayer">
+  <div>
+      <div className="listPlayer">
+        <h2>Spielerliste</h2>
+      <ul style={{ textAlign: 'center' }}>
+        {visiblePlayers.map((player, index) => (
+          <li key={index}>
+            {player.name} - Elo: {player.elo} - {player.races} – Score:{' '}
+            {player.races > 0 ? Math.round(calculateScore(player)) : '–'} 
+            <select
+              style={{ fontSize: "0.75rem", marginLeft: "8px" }}
+              value=""
+              onChange={(e) => {
+                const change = parseInt(e.target.value);
+                if (!isNaN(change)) {
+                  setPlayers(players.map(p =>
+                    p.name === player.name
+                      ? { ...p, elo: p.elo + change }
+                      : p
+                  ));
+                }
+              }}
+            >
+              <option value="" disabled>
+                Elo ändern...
+              </option>
+              {[-10, -3, -1, 1, 3, 10].map((change) => (
+                <option key={change} value={change}>
+                  {change > 0 ? `+${change}` : change}
+                </option>
+              ))}
+            </select>
+
+          </li>
+        ))}
+      </ul>
+      </div>
+      <div className="fourthLayer">
+      <button onClick={() => setSortBy(sortBy === 'elo' ? 'score' : 'elo')}>
+        Nach {sortBy === 'elo' ? 'Score' : 'Elo'} sortieren
+      </button>
+      <button onClick={() => setShowFullList(!showFullList)}>
+        {showFullList ? 'Nur Top 8 anzeigen' : 'Alle Spieler anzeigen'}
+      </button>
+      </div>
+</div>
+</div>
+</div>
   </div>
   
       
