@@ -120,7 +120,8 @@ h2, li, ul, label, option, value, button, input {
 
 .inhalt{
   position: relative;
-  z-index: 200;
+  height: 100vh;
+  overflow-y: auto;
 }
 
 button {
