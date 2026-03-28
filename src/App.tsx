@@ -95,7 +95,7 @@ export default function App() {
   ))}
   <div className="inhalt">
     <div className="logo">
-      <img src="./public/title2.gif"/>
+      <img src="./title2.gif"/>
     </div>
 
     <div className="outer">
