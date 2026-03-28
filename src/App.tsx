@@ -79,7 +79,7 @@ export default function App() {
         flexDirection: 'column',
         height: '100vh',
         textAlign: 'center',
-        backgroundColor: "#ffffff", // Mario-Rot
+        backgroundColor: "#cfd5f9", // Mario-Rot
         color: "white", // Text gut lesbar
       }}
     >
@@ -94,17 +94,23 @@ export default function App() {
     />
   ))}
   <div className="inhalt">
-    <div>
+    <div className="logo">
       <img src="./public/title2.gif"/>
     </div>
 
+    <div className="outer">
+    <div className="firstLayer">
       <input
         type="text"
         value={newPlayer}
         onChange={(e) => setNewPlayer(e.target.value)}
         placeholder="Spielername"
+        className="inputPlayer"
       />
-      <button onClick={addPlayer}>Hinzufügen</button>
+      <button className="buttonAdd" onClick={addPlayer}>Hinzufügen</button>
+    </div>
+    </div>
+      
       <button onClick={() => setSortBy(sortBy === 'elo' ? 'score' : 'elo')}>
         Nach {sortBy === 'elo' ? 'Score' : 'Elo'} sortieren
       </button>
