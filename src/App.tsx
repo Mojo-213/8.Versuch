@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
+
 
 export default function App() {
   type Player = {
@@ -7,6 +9,7 @@ export default function App() {
     races: number;
   };
 
+  const BLOB_SIZE = 1200;
   const [players, setPlayers] = useState<Player[]>([]);
   const [newPlayer, setNewPlayer] = useState<string>('');
   const [races, setRaces] = useState<string[][]>([]);
@@ -14,10 +17,31 @@ export default function App() {
   const [showRaces, setShowRaces] = useState<boolean>(false);
   const [sortBy, setSortBy] = useState<'elo' | 'score'>('elo');
   const [showFullList, setShowFullList] = useState<boolean>(false);
+  const [blobPositions, setBlobPositions] = useState(
+  Array(3).fill(0).map(() => ({
+    x: Math.random() * window.innerWidth,
+    y: Math.random() * window.innerHeight,
+  }))
+);
   const calculateScore = (player: Player): number => {
     if (player.races === 0) return -Infinity;
     return (player.elo - 1000) / player.races;
   };
+
+  useEffect(() => {
+  const interval = setInterval(() => {
+    setBlobPositions(
+      blobPositions.map(() => ({
+        x: (Math.random() - 0.5) * (window.innerWidth + BLOB_SIZE),
+        y: (Math.random() - 0.5) * (window.innerHeight + BLOB_SIZE),
+      }))
+    );
+    console.log(blobPositions);
+  }, 4000);
+
+  return () => clearInterval(interval);
+}, [blobPositions]);
+  
 
   const addPlayer = () => {
     if (newPlayer.trim() === '') return;
@@ -45,7 +69,7 @@ export default function App() {
   return (
     <div
       style={{
-        position: "absolute",
+        position: "relative",
         top: 0,
         left: 0,
         width: "100%",
@@ -55,60 +79,41 @@ export default function App() {
         flexDirection: 'column',
         height: '100vh',
         textAlign: 'center',
-        backgroundColor: "#b8000f", // Mario-Rot
+        backgroundColor: "#cfd5f9", // Mario-Rot
         color: "white", // Text gut lesbar
       }}
     >
-      <h1>Yokaiwai-Con Turnier</h1>
+      <div className="background">
+        {blobPositions.map((pos, i) => (
+    <div
+      key={i}
+      className="blob"
+      style={{
+        transform: `translate(${pos.x}px, ${pos.y}px)`
+      }}
+    />
+  ))}
+  <div className="inhalt">
+    <div className="logo">
+      <img src="./public/title2.gif"/>
+    </div>
 
+    <div className="outer">
+    <div className="firstLayer">
       <input
         type="text"
         value={newPlayer}
         onChange={(e) => setNewPlayer(e.target.value)}
         placeholder="Spielername"
+        className="inputPlayer"
       />
-      <button onClick={addPlayer}>Hinzufügen</button>
-      <button onClick={() => setSortBy(sortBy === 'elo' ? 'score' : 'elo')}>
-        Nach {sortBy === 'elo' ? 'Score' : 'Elo'} sortieren
-      </button>
-      <button onClick={() => setShowFullList(!showFullList)}>
-        {showFullList ? 'Nur Top 8 anzeigen' : 'Alle Spieler anzeigen'}
-      </button>
+      <button className="buttonAdd" onClick={addPlayer}>Hinzufügen</button>
+    </div>
+    </div>
 
-      <h2>Spielerliste</h2>
-      <ul style={{ textAlign: 'left' }}>
-        {visiblePlayers.map((player, index) => (
-          <li key={index}>
-            {player.name} - Elo: {player.elo} - {player.races} – Score:{' '}
-            {player.races > 0 ? Math.round(calculateScore(player)) : '–'} 
-            <select
-              style={{ fontSize: "0.75rem", marginLeft: "8px" }}
-              value=""
-              onChange={(e) => {
-                const change = parseInt(e.target.value);
-                if (!isNaN(change)) {
-                  setPlayers(players.map(p =>
-                    p.name === player.name
-                      ? { ...p, elo: p.elo + change }
-                      : p
-                  ));
-                }
-              }}
-            >
-              <option value="" disabled>
-                Elo ändern...
-              </option>
-              {[-10, -3, -1, 1, 3, 10].map((change) => (
-                <option key={change} value={change}>
-                  {change > 0 ? `+${change}` : change}
-                </option>
-              ))}
-            </select>
-
-          </li>
-        ))}
-      </ul>
-
+<div className="outer">
+    <div className="playerOverview">
+      <div>
       <h2>Neues Rennen</h2>
       {currentRace.map((name: string, index: number) => (
         <div key={index}>
@@ -132,6 +137,8 @@ export default function App() {
           </select>
         </div>
       ))}
+      
+      <div className="secondLayer">
       <button
         onClick={() => {
           if (currentRace.some((name: string) => name.trim() === '')) return;
@@ -241,7 +248,65 @@ export default function App() {
           Letztes Rennen löschen
         </button>
       )}
+      </div>
 
+</div>
+      </div>
+      </div>
+<div className="outer">
+<div className="lastLayer">
+  <div>
+      <div className="listPlayer">
+        <h2>Spielerliste</h2>
+      <ul style={{ textAlign: 'center' }}>
+        {visiblePlayers.map((player, index) => (
+          <li key={index}>
+            {player.name} - Elo: {player.elo} - {player.races} – Score:{' '}
+            {player.races > 0 ? Math.round(calculateScore(player)) : '–'} 
+            <select
+              style={{ fontSize: "0.75rem", marginLeft: "8px" }}
+              value=""
+              onChange={(e) => {
+                const change = parseInt(e.target.value);
+                if (!isNaN(change)) {
+                  setPlayers(players.map(p =>
+                    p.name === player.name
+                      ? { ...p, elo: p.elo + change }
+                      : p
+                  ));
+                }
+              }}
+            >
+              <option value="" disabled>
+                Elo ändern...
+              </option>
+              {[-10, -3, -1, 1, 3, 10].map((change) => (
+                <option key={change} value={change}>
+                  {change > 0 ? `+${change}` : change}
+                </option>
+              ))}
+            </select>
+
+          </li>
+        ))}
+      </ul>
+      </div>
+      <div className="fourthLayer">
+      <button onClick={() => setSortBy(sortBy === 'elo' ? 'score' : 'elo')}>
+        Nach {sortBy === 'elo' ? 'Score' : 'Elo'} sortieren
+      </button>
+      <button onClick={() => setShowFullList(!showFullList)}>
+        {showFullList ? 'Nur Top 8 anzeigen' : 'Alle Spieler anzeigen'}
+      </button>
+      </div>
+</div>
+</div>
+</div>
+  </div>
+  
+      
+      </div>
+      
     </div>
   );
 }
